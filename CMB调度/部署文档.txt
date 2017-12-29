@@ -1,0 +1,123 @@
+软件清单
+1° 安装Oracle客户端的基本rpm包：
+oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm
+
+2° 安装sqlplus命令的rpm包：
+oracle-instantclient11.2-sqlplus-11.2.0.4.0-1.x86_64.rpm
+
+部署包
+1° deployment.zip
+
+deployment包的目录结构
+.
+├── bi_etl.zip
+├── oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm
+├── oracle-instantclient11.2-sqlplus-11.2.0.4.0-1.x86_64.rpm
+└── readme.txt
+
+bi_etl.zip包的目录结构
+.
+└── bin
+    └── etl_scripts.sh
+
+依赖数据库服务器的数据库监听端口，如更改数据库监听的端口需调整端口
+需要将端口添加到防火墙中，并重启防火墙
+port: 1521
+
+[调度服务器]
+开始安装
+1、登录调度服务器
+
+2、上传部署包
+
+3、解压部署包
+	unzip deployment.zip
+
+4、检查是否安装Oracle客户端
+   如果已经安装,则跳至 步骤 ：24
+   否则继续安装
+
+5、安装Oracle客户端的基本包 [以root用户登录]
+   rpm -ivh oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm
+
+6、安装Oracle客户端的sqlplus命令包
+   rpm -ivh oracle-instantclient11.2-sqlplus-11.2.0.4.0-1.x86_64.rpm
+
+7、修改环境变量
+   sudo vi /etc/profile.d/oracle.sh
+
+8、添加内容如下
+   export ORACLE_HOME=/usr/lib/oracle/11.2/client64
+   export PATH=$PATH:$ORACLE_HOME/bin
+   export NLS_LANG=AMERICAN_AMERICA.AL32UTF8
+
+9、使配置文件生效
+   source /etc/profile.d/oracle.sh
+
+10、修改shared配置文件
+   sudo vi /etc/ld.so.conf.d/oracle.conf
+
+11、添加内容如下
+   /usr/lib/oracle/11.2/client64/lib/
+
+12、加载配置
+   sudo ldconfig
+
+13、查看是否可找到sqlplus命令
+   which sqlplus
+
+14、在/usr/bin/ 目录下创建软链接 或者将 /usr/lib/oracle/11.2/client64/bin/ 该路径添加到PATH变量中
+	 创建软链接
+	 ln -s /usr/lib/oracle/11.2/client64/bin/sqlplus /usr/bin/sqlplus
+
+	 添加到PATH变量中
+	 ORA_SQLPLUS=/usr/lib/oracle/11.2/client64/bin/
+	 export ORA_SQLPLUS
+
+	 PATH=$PATH:$ORA_SQLPLUS
+	 export PATH
+
+15、检查是否可连接到数据库服务器
+   telnet 数据库服务器的IP地址 数据库监听端口
+   根据实际情况更改
+   telnet 10.100.23.10 1521
+
+16、如果可连接到数据库，则继续下一步，否则需要在数据库服务器上开打对应的端口
+
+17、解压代码部署包
+   unzip bi_etl.zip
+
+18、进入调度脚本目录
+   cd bin
+
+19、修改脚本权限
+   chmod 755 -R *
+
+20、返回上一层
+   cd ..
+
+21、修改脚本（etl_scripts.sh）line38-49
+Caution: 注意修改日志路径
+
+if [ "${BREAKFLAG}" -eq "0" ]
+then
+   if [ "${FREQ}" == "QUARTERLY" ]
+   then
+      BASE_PATH="/home/chinacscs/caihui/sysnc-1.0-SNAPSHOT"
+   elif [ "${FREQ}" == "DAILY" ]
+   then
+      BASE_PATH="/home/chinacscs/etltostg/estg-1.0-SNAPSHOT"
+   else
+      BASE_PATH=$(dirname "$PWD")
+   fi
+fi
+
+Caution： 注意修改数据库用户、密码、连接串
+# 数据库用户
+CONFIG_CONN_USER='cs_master_stg'
+EXEC_CONN_USER='cs_master_tgt'
+# 数据库登录密码
+CONFIG_CONN_PAWD='abc123'
+EXEC_CONN_PAWD='abc123'
+# 登录数据库的连接串
+CONN_STR='10.100.45.10:1521/orcl'
