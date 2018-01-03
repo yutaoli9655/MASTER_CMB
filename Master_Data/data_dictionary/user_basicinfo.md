@@ -1,5 +1,6 @@
 # 用户表 USER_BASICINFO
 
+<!--sec data-title="融资融券账户强平或违约记录表" data-id="section0" data-show=true ces-->
 | 英文字段        | 中文字段   | 类型            | 是否为空     | 主键   | 说明                         |
 | ----------- | ------ | ------------- | -------- | ---- | -------------------------- |
 | USER_ID     | 用户标识符  | NUMBER(16)    | NOT NULL | PK   | SEQ_USER_BASICINFO.NEXTVAL |
@@ -20,3 +21,24 @@
 | UPDT_BY     | 创建人    | NUMBER(16)    | NOT NULL |      |                            |
 | UPDT_DT     | 更新时间   | TIMESTAMP     | NOT NULL |      |                            |
 | ISDEL       | 是否删除   | INTEGER       | NOT NULL |      |                            |
+
+<!--endsec-->
+
+
+<!--sec data-title="DDL" data-id="section1" data-show=true ces-->
+``` sql
+create table STG_MARGIN_TRD_EVENING
+(
+    CUSTOMER_CD	NUMBER(16)	NOT NULL	,
+    ORDER_TYPE	VARCHAR2(30)		,
+    CLOSE_STRATEGY	VARCHAR2(30)		,
+    CLOSE_TYPE	VARCHAR2(30)	NOT NULL	,
+    APPLY_DT	DATE		,
+    DEAL_DT	DATE	NOT NULL	,
+    UPDT_TS	TIMESTAMP default systimestamp  not null	
+)
+nologging
+;
+
+```
+<!--endsec-->
