@@ -1,0 +1,24 @@
+{
+    "title": "Credit Master - 数据字典",
+    "plugins": [
+	    "expandable-chapters-small",
+        "addcssjs",
+	    "sectionx"
+    ],
+    "links": {
+        "sidebar": {
+            "Contact us 联系我们": "mailto:xielp@chinacscs.com;mailto:shangqq@chinacscs.com;mailto:zhangzx@chinacscs.com;mailto:zhangwei@chinacscs.com;"
+        }
+    },
+    "pluginsConfig": {
+    	"sectionx": {
+    		"tag": "b"
+          	}, 
+    	"theme-default": {
+    		"showLevel": true
+    	},
+        "addcssjs": {
+        "css": ["_css/custom.css"]
+        }
+    }
+}
