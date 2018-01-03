@@ -7,3 +7,5 @@
 
 npm-debug.log
 Master_Data/_book
+Master_Data/_book/*.*
+Master_Data/_book/data_dictionary/*.html
