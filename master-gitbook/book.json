@@ -1,0 +1,20 @@
+{
+    "title": "适当性 - 投资者评价数据仓库 - wiki",
+    "plugins": [
+	    "expandable-chapters-small",
+	    "sectionx"
+    ],
+    "links": {
+        "sidebar": {
+            "Contact us 联系我们": "mailto:luogh@chinacscs.com;chenchen@chinacscs.com;dongshuai@chinacscs.com"
+        }
+    },
+    "pluginsConfig": {
+	"sectionx": {
+		"tag": "b"
+      	}, 
+	"theme-default": {
+		"showLevel": true
+	}
+    }
+}
