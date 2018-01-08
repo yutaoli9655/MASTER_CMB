@@ -1,1 +1,0 @@
-#系统配置表 lkp_sysconfig.md 
